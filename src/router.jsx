@@ -20,6 +20,10 @@ export const router = createBrowserRouter([
         lazy: () => import("@/routes/about"),
       },
       {
+        path: "oauth/callback",
+        lazy: () => import("@/routes/oauth-callback"),
+      },
+      {
         path: "*",
         lazy: () => import("@/routes/not-found"),
       },
@@ -70,6 +74,14 @@ export const router = createBrowserRouter([
       {
         path: "forum",
         lazy: () => import("@/routes/dashboard/forum"),
+      },
+      {
+        path: "forum/:id",
+        lazy: () => import("@/routes/dashboard/forum-detail"),
+      },
+      {
+        path: "redeem",
+        lazy: () => import("@/routes/dashboard/redeem"),
       },
       {
         path: "profile",

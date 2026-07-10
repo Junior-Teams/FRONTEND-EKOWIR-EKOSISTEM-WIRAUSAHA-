@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const HOST_API = import.meta.env.VITE_HOST_API;
+export const HOST_API = import.meta.env.VITE_HOST_API;
 const axiosInstance = axios.create({
   baseURL: HOST_API, // Replace with your API base URL
   headers: {

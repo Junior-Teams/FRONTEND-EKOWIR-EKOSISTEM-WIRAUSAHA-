@@ -1,10 +1,12 @@
-import { BookOpen, Home, MessagesSquare, Trophy, User } from "lucide-react"
+import { BookOpen, Gift, Home, MessagesSquare, Trophy, User } from "lucide-react"
 import { Link, Outlet, useLocation } from "react-router"
 
 import { ModeToggle } from "@/components/mode-toggle"
+import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -24,6 +26,7 @@ const NAV_ITEMS = [
   { title: "Leaderboard", url: "/dashboard/leaderboard", icon: Trophy },
   { title: "Belajar", url: "/dashboard/belajar", icon: BookOpen },
   { title: "Forum", url: "/dashboard/forum", icon: MessagesSquare },
+  { title: "Redeem Hadiah", url: "/dashboard/redeem", icon: Gift },
   { title: "Profile", url: "/dashboard/profile", icon: User },
 ]
 
@@ -45,7 +48,7 @@ export function Component() {
       <SidebarProvider>
         <Sidebar className="border-r-2 border-black dark:border-white">
           <SidebarHeader className="px-8 py-8">
-            <img src="/assets/logo/logo.webp" alt="Logo" className="h-12 w-auto" />
+            <img src="/assets/logo/logo.png" alt="Logo" className="h-12 w-auto" />
           </SidebarHeader>
 
           <SidebarContent>
@@ -71,6 +74,12 @@ export function Component() {
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
+
+          <SidebarFooter className="border-t-2 border-black p-2 dark:border-white">
+            <SidebarMenu>
+              <NavUser />
+            </SidebarMenu>
+          </SidebarFooter>
         </Sidebar>
 
         <SidebarInset>

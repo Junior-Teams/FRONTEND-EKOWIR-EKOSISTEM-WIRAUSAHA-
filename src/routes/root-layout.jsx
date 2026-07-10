@@ -3,7 +3,7 @@ import { Link, Outlet, ScrollRestoration } from "react-router"
 
 import { Container } from "@/components/container"
 import { Footer } from "@/components/footer"
-// import { ModeToggle } from "@/components/mode-toggle"
+import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { RouteErrorBoundary } from "@/routes/route-error-boundary"
@@ -28,13 +28,16 @@ export function Component() {
         )}
       >
         <Container className="flex items-center justify-between py-3">
-          <img src="/assets/logo/logo.webp" alt="Logo" className="h-12 w-auto" />
-          <nav className="flex items-center gap-4 text-sm font-medium">
+          <img src="/assets/logo/logo.png" alt="Logo" className="h-14 w-auto" />
+          <nav className="flex items-center gap-6 text-sm font-medium">
             <Link to="/" className="hover:text-foreground/80 font-semibold text-[1rem]">
               Home
             </Link>
             <Link to="/about" className="hover:text-foreground/80 font-semibold text-[1rem]">
               About
+            </Link>
+            <Link to="/#fitur" className="hover:text-foreground/80 font-semibold text-[1rem]">
+              Fitur
             </Link>
           </nav>
           <div className="flex items-center gap-3">
@@ -44,7 +47,7 @@ export function Component() {
             <Button size="default" className="rounded-lg bg-eko-secondary px-6 py-5  font-semibold text-white hover:bg-eko-secondary/90" render={<Link to="/auth/register" />} nativeButton={false}>
               Daftar
             </Button>
-            {/* <ModeToggle /> */}
+            <ModeToggle />
           </div>
         </Container>
       </header>
