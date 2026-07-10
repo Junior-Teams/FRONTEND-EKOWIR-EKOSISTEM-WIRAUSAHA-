@@ -50,7 +50,7 @@ export function Component() {
 
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Menu</SidebarGroupLabel>
+              <SidebarGroupLabel className="text-lg font-semibold">Menu</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu className="gap-2">
                   {NAV_ITEMS.map((item) => (
@@ -60,7 +60,7 @@ export function Component() {
                         isActive={isNavItemActive(pathname, item.url)}
                         tooltip={item.title}
                         size="lg"
-                        className="gap-3 text-base font-semibold [&_svg]:size-5 data-active:bg-primary data-active:text-primary-foreground data-active:hover:bg-primary data-active:hover:text-primary-foreground"
+                        className="gap-3 text-lg font-semibold [&_svg]:size-6 data-active:bg-eko-primary data-active:text-white data-active:hover:bg-eko-primary data-active:hover:text-white"
                       >
                         <item.icon />
                         <span>{item.title}</span>
@@ -74,7 +74,7 @@ export function Component() {
         </Sidebar>
 
         <SidebarInset>
-          <header className="flex items-center justify-between border-b-2 border-black px-4 py-3 dark:border-white">
+          <header className="bg-background sticky top-0 z-20 flex items-center justify-between border-b-2 border-black px-4 py-3 dark:border-white">
             <SidebarTrigger />
             <ModeToggle />
           </header>

@@ -1,3 +1,4 @@
+import { Breadcrumb } from "@/components/breadcrumb"
 import { Card, CardContent } from "@/components/ui/card"
 import { NEO_BORDER, NEO_SHADOW } from "@/lib/neobrutalism"
 import { cn } from "@/lib/utils"
@@ -19,31 +20,37 @@ const RANK_BADGE = {
 
 export function Component() {
   return (
-    <div className="flex w-full max-w-2xl flex-col gap-3">
-      {LEADERBOARD.map((entry) => (
-        <Card
-          key={entry.rank}
-          className={cn(
-            "rounded-lg bg-white ring-0 dark:bg-neutral-900",
-            NEO_BORDER,
-            NEO_SHADOW
-          )}
-        >
-          <CardContent className="flex items-center gap-4">
-            <div
-              className={cn(
-                "flex size-9 shrink-0 items-center justify-center rounded-lg font-bold",
-                NEO_BORDER,
-                RANK_BADGE[entry.rank] ?? "bg-blue-100 dark:bg-blue-950"
-              )}
-            >
-              {entry.rank}
-            </div>
-            <span className="flex-1 font-medium">{entry.name}</span>
-            <span className="font-bold">{entry.points.toLocaleString("id-ID")} pts</span>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="flex flex-col gap-4">
+      <Breadcrumb
+        items={[{ label: "Beranda", href: "/dashboard" }, { label: "Leaderboard" }]}
+      />
+
+      <div className="flex w-full max-w-2xl flex-col gap-3">
+        {LEADERBOARD.map((entry) => (
+          <Card
+            key={entry.rank}
+            className={cn(
+              "rounded-lg bg-white ring-0 dark:bg-neutral-900",
+              NEO_BORDER,
+              NEO_SHADOW
+            )}
+          >
+            <CardContent className="flex items-center gap-4">
+              <div
+                className={cn(
+                  "flex size-9 shrink-0 items-center justify-center rounded-lg font-bold",
+                  NEO_BORDER,
+                  RANK_BADGE[entry.rank] ?? "bg-blue-100 dark:bg-blue-950"
+                )}
+              >
+                {entry.rank}
+              </div>
+              <span className="flex-1 font-medium">{entry.name}</span>
+              <span className="font-bold">{entry.points.toLocaleString("id-ID")} pts</span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }

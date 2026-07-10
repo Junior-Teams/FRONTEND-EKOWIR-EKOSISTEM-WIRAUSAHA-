@@ -1,5 +1,6 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
+import { Breadcrumb } from "@/components/breadcrumb"
 import {
   Card,
   CardContent,
@@ -41,6 +42,8 @@ const chartConfig = {
 export function Component() {
   return (
     <div className="flex flex-col gap-4">
+      <Breadcrumb items={[{ label: "Beranda" }]} />
+
       <div className="grid gap-4 sm:grid-cols-3">
         {STATS.map((stat) => (
           <Card

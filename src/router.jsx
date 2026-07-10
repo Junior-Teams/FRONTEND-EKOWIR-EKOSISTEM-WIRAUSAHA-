@@ -64,6 +64,10 @@ export const router = createBrowserRouter([
         lazy: () => import("@/routes/dashboard/belajar"),
       },
       {
+        path: "belajar/:id",
+        lazy: () => import("@/routes/dashboard/belajar-detail"),
+      },
+      {
         path: "forum",
         lazy: () => import("@/routes/dashboard/forum"),
       },
