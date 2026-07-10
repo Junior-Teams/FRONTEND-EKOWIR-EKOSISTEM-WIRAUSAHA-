@@ -72,6 +72,10 @@ export const router = createBrowserRouter([
         lazy: () => import("@/routes/dashboard/belajar-detail"),
       },
       {
+        path: "belajar/:id/kuis/:quizId",
+        lazy: () => import("@/routes/dashboard/belajar-quiz"),
+      },
+      {
         path: "forum",
         lazy: () => import("@/routes/dashboard/forum"),
       },
@@ -86,6 +90,84 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         lazy: () => import("@/routes/dashboard/profile"),
+      },
+      {
+        path: "admin",
+        lazy: () => import("@/routes/dashboard/admin/admin-layout"),
+        children: [
+          {
+            index: true,
+            lazy: () => import("@/routes/dashboard/admin/admin-beranda"),
+          },
+          {
+            path: "pengguna",
+            lazy: () => import("@/routes/dashboard/admin/pengguna"),
+          },
+          {
+            path: "pengguna/new",
+            lazy: () => import("@/routes/dashboard/admin/pengguna-form"),
+          },
+          {
+            path: "pengguna/:id/edit",
+            lazy: () => import("@/routes/dashboard/admin/pengguna-form"),
+          },
+          {
+            path: "modules",
+            lazy: () => import("@/routes/dashboard/admin/modules"),
+          },
+          {
+            path: "modules/new",
+            lazy: () => import("@/routes/dashboard/admin/module-form"),
+          },
+          {
+            path: "modules/:id/edit",
+            lazy: () => import("@/routes/dashboard/admin/module-form"),
+          },
+          {
+            path: "modules/:id",
+            lazy: () => import("@/routes/dashboard/admin/module-detail"),
+          },
+          {
+            path: "modules/:moduleId/materis/new",
+            lazy: () => import("@/routes/dashboard/admin/materi-form"),
+          },
+          {
+            path: "modules/:moduleId/materis/:id/edit",
+            lazy: () => import("@/routes/dashboard/admin/materi-form"),
+          },
+          {
+            path: "modules/:moduleId/quizzes/new",
+            lazy: () => import("@/routes/dashboard/admin/quiz-form"),
+          },
+          {
+            path: "modules/:moduleId/quizzes/:id/edit",
+            lazy: () => import("@/routes/dashboard/admin/quiz-form"),
+          },
+          {
+            path: "quizzes/:quizId/questions",
+            lazy: () => import("@/routes/dashboard/admin/quiz-questions"),
+          },
+          {
+            path: "quizzes/:quizId/questions/new",
+            lazy: () => import("@/routes/dashboard/admin/question-form"),
+          },
+          {
+            path: "quizzes/:quizId/questions/:id/edit",
+            lazy: () => import("@/routes/dashboard/admin/question-form"),
+          },
+          {
+            path: "reward",
+            lazy: () => import("@/routes/dashboard/admin/rewards"),
+          },
+          {
+            path: "reward/new",
+            lazy: () => import("@/routes/dashboard/admin/reward-form"),
+          },
+          {
+            path: "reward/:id/edit",
+            lazy: () => import("@/routes/dashboard/admin/reward-form"),
+          },
+        ],
       },
     ],
   },

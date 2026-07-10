@@ -1,22 +1,15 @@
-import { useState } from "react"
-import { GraduationCap } from "lucide-react"
+import { BookOpen, GraduationCap } from "lucide-react"
 import { Link } from "react-router"
 
 import { Breadcrumb } from "@/components/breadcrumb"
-import {
-  getModuleImage,
-  LEVEL_BADGE,
-  LEVELS,
-  MODULES,
-} from "@/lib/koperasi-modules"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useModulesQuery } from "@/hooks/admin/useModuleAdmin"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
+import { getStorageUrl } from "@/lib/storage"
 import { cn } from "@/lib/utils"
 
 export function Component() {
-  const [level, setLevel] = useState("Semua")
-
-  const modules =
-    level === "Semua" ? MODULES : MODULES.filter((item) => item.level === level)
+  const { data: modules, isLoading } = useModulesQuery()
 
   return (
     <div className="flex flex-col gap-4">
@@ -31,75 +24,69 @@ export function Component() {
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        {LEVELS.map((item) => (
-          <button
-            key={item}
-            type="button"
-            onClick={() => setLevel(item)}
-            className={cn(
-              "rounded-lg px-3 py-1.5 text-sm font-bold uppercase",
-              NEO_BORDER,
-              NEO_SHADOW,
-              NEO_PRESS,
-              level === item
-                ? "bg-eko-primary text-white"
-                : "bg-white dark:bg-neutral-900"
-            )}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {modules.map((item) => (
-          <Link
-            key={item.id}
-            to={`/dashboard/belajar/${item.id}`}
-            className={cn(
-              "flex flex-col overflow-hidden rounded-lg bg-white dark:bg-neutral-900",
-              NEO_BORDER,
-              NEO_SHADOW,
-              NEO_PRESS
-            )}
-          >
-            <div className="flex items-center justify-between border-b-2 border-black px-3 py-2 dark:border-white">
-              <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase">
-                <GraduationCap className="size-3.5" />
-                Modul
-              </span>
-              <span
-                className={cn(
-                  "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase",
-                  NEO_BORDER,
-                  LEVEL_BADGE[item.level]
-                )}
-              >
-                {item.level}
-              </span>
-            </div>
-
-            <img
-              src={getModuleImage(item.id)}
-              alt={item.title}
-              className="h-32 w-full border-b-2 border-black object-cover dark:border-white"
-            />
-
-            <div className="flex flex-1 flex-col gap-2 p-4">
-              <h3 className="font-heading text-base leading-snug font-bold">
-                {item.title}
-              </h3>
-              <p className="text-muted-foreground line-clamp-3 flex-1 text-sm">
-                {item.description}
-              </p>
-              <div className="mt-2 flex items-center justify-between border-t-2 border-black pt-3 text-xs font-bold uppercase dark:border-white">
-                <span>{item.materials.length} Pelajaran</span>
+      {isLoading ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton key={index} className="h-64 w-full" />
+          ))}
+        </div>
+      ) : modules?.length ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {modules.map((module) => (
+            <Link
+              key={module.ID}
+              to={`/dashboard/belajar/${module.ID}`}
+              className={cn(
+                "flex flex-col overflow-hidden rounded-lg bg-white dark:bg-neutral-900",
+                NEO_BORDER,
+                NEO_SHADOW,
+                NEO_PRESS
+              )}
+            >
+              <div className="flex items-center justify-between border-b-2 border-black px-3 py-2 dark:border-white">
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase">
+                  <GraduationCap className="size-3.5" />
+                  Modul
+                </span>
+                <span
+                  className={cn(
+                    "rounded-full bg-eko-secondary px-2 py-0.5 text-[10px] font-bold uppercase",
+                    NEO_BORDER
+                  )}
+                >
+                  {module.code_module}
+                </span>
               </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+
+              <img
+                src={getStorageUrl(module.image)}
+                alt={module.name_module}
+                className="h-32 w-full border-b-2 border-black object-cover dark:border-white"
+              />
+
+              <div className="flex flex-1 flex-col gap-2 p-4">
+                <h3 className="font-heading text-base leading-snug font-bold">
+                  {module.name_module}
+                </h3>
+                <p className="text-muted-foreground line-clamp-3 flex-1 text-sm">
+                  {module.description_module}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div
+          className={cn(
+            "flex flex-col items-center gap-2 rounded-lg bg-white p-10 text-center dark:bg-neutral-900",
+            NEO_BORDER,
+            NEO_SHADOW
+          )}
+        >
+          <BookOpen className="text-muted-foreground size-8" />
+          <p className="text-muted-foreground text-sm">Belum ada modul pembelajaran.</p>
+        </div>
+      )}
     </div>
   )
 }

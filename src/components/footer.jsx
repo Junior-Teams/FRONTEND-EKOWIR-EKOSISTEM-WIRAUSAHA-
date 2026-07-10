@@ -14,8 +14,8 @@ export function Footer() {
     <footer className="bg-eko-primary text-white">
       <Container className="grid grid-cols-1 gap-10 py-12 md:grid-cols-3">
         <div>
-          <img src="/assets/logo/logo.png" alt="Ekobis" className="h-10 w-auto" />
-          <p className="mt-4 text-sm text-white/80">
+          <img src="/assets/logo/2.svg" alt="Ekobis" className="h-14 w-auto" />
+          <p className="mt-4 text-sm text-white/80 px-3">
             Ekobis membantu kamu memahami dan mengelola koperasi lewat
             materi belajar, latihan soal, forum diskusi, dan leaderboard —
             semua bisa diakses di mana saja.

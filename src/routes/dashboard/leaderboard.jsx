@@ -1,16 +1,12 @@
+import { Trophy } from "lucide-react"
+
 import { Breadcrumb } from "@/components/breadcrumb"
 import { Card, CardContent } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useCurrentUser } from "@/hooks/auth/useCurrentUser"
+import { useLeaderboardQuery } from "@/hooks/leaderboard/useLeaderboard"
 import { NEO_BORDER, NEO_SHADOW } from "@/lib/neobrutalism"
 import { cn } from "@/lib/utils"
-
-const LEADERBOARD = [
-  { rank: 1, name: "Ayu Lestari", points: 2450 },
-  { rank: 2, name: "Budi Santoso", points: 2310 },
-  { rank: 3, name: "Citra Dewi", points: 2190 },
-  { rank: 4, name: "Dimas Prakoso", points: 1980 },
-  { rank: 5, name: "Eka Putri", points: 1875 },
-  { rank: 6, name: "Fajar Nugroho", points: 1740 },
-]
 
 const RANK_BADGE = {
   1: "bg-amber-300",
@@ -19,38 +15,88 @@ const RANK_BADGE = {
 }
 
 export function Component() {
+  const { data: user } = useCurrentUser()
+  const { data: leaderboard, isLoading } = useLeaderboardQuery({ limit: 50 })
+
   return (
     <div className="flex flex-col gap-4">
       <Breadcrumb
         items={[{ label: "Beranda", href: "/dashboard" }, { label: "Leaderboard" }]}
       />
 
-      <div className="flex w-full max-w-2xl flex-col gap-3">
-        {LEADERBOARD.map((entry) => (
-          <Card
-            key={entry.rank}
-            className={cn(
-              "rounded-lg bg-white ring-0 dark:bg-neutral-900",
-              NEO_BORDER,
-              NEO_SHADOW
-            )}
-          >
-            <CardContent className="flex items-center gap-4">
-              <div
+      {isLoading ? (
+        <div className="mx-auto flex w-full max-w-2xl flex-col gap-3">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <Skeleton key={index} className="h-16 w-full" />
+          ))}
+        </div>
+      ) : leaderboard?.length ? (
+        <div className="mx-auto flex w-full max-w-2xl flex-col gap-3">
+          {leaderboard.map((entry) => {
+            const isSelf = entry.id === user?.id
+            return (
+              <Card
+                key={entry.id}
                 className={cn(
-                  "flex size-9 shrink-0 items-center justify-center rounded-lg font-bold",
+                  "rounded-lg bg-white ring-0 dark:bg-neutral-900",
                   NEO_BORDER,
-                  RANK_BADGE[entry.rank] ?? "bg-blue-100 dark:bg-blue-950"
+                  NEO_SHADOW,
+                  isSelf && "ring-2 ring-eko-primary"
                 )}
               >
-                {entry.rank}
-              </div>
-              <span className="flex-1 font-medium">{entry.name}</span>
-              <span className="font-bold">{entry.points.toLocaleString("id-ID")} pts</span>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+                <CardContent className="flex items-center gap-4">
+                  <div
+                    className={cn(
+                      "flex size-9 shrink-0 items-center justify-center rounded-lg font-bold",
+                      NEO_BORDER,
+                      RANK_BADGE[entry.rank] ?? "bg-blue-100 dark:bg-blue-950"
+                    )}
+                  >
+                    {entry.rank}
+                  </div>
+                  {entry.picture ? (
+                    <img
+                      src={entry.picture}
+                      alt=""
+                      className={cn("size-9 shrink-0 rounded-full object-cover", NEO_BORDER)}
+                    />
+                  ) : null}
+                  <div className="flex-1">
+                    <span className="font-medium">
+                      {entry.name || entry.username}
+                      {isSelf && (
+                        <span className="text-muted-foreground font-normal"> (kamu)</span>
+                      )}
+                    </span>
+                    {entry.tier?.name && (
+                      <span
+                        className={cn(
+                          "ml-2 rounded-full bg-eko-secondary px-2 py-0.5 text-[10px] font-bold uppercase",
+                          NEO_BORDER
+                        )}
+                      >
+                        {entry.tier.name}
+                      </span>
+                    )}
+                  </div>
+                  <span className="font-bold">{entry.xp.toLocaleString("id-ID")} XP</span>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      ) : (
+        <div
+          className={cn(
+            "flex flex-col items-center gap-2 rounded-lg bg-white p-10 text-center dark:bg-neutral-900",
+            NEO_BORDER,
+            NEO_SHADOW
+          )}
+        >
+          <Trophy className="text-muted-foreground size-8" />
+          <p className="text-muted-foreground text-sm">Belum ada peringkat untuk ditampilkan.</p>
+        </div>
+      )}
     </div>
   )
 }

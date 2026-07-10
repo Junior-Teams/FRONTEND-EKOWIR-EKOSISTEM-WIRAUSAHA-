@@ -28,7 +28,7 @@ export function Component() {
         )}
       >
         <Container className="flex items-center justify-between py-3">
-          <img src="/assets/logo/logo.png" alt="Logo" className="h-14 w-auto" />
+          <img src="/assets/logo/logo.svg" alt="Logo" className="h-12 w-auto" />
           <nav className="flex items-center gap-6 text-sm font-medium">
             <Link to="/" className="hover:text-foreground/80 font-semibold text-[1rem]">
               Home

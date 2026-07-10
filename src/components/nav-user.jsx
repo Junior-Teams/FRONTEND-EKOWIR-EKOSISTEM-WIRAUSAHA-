@@ -76,7 +76,7 @@ export function NavUser() {
           </button>
           <button type="button" className={menuItemClass}>
             <History className="size-4" />
-            Riwayat Pembelian
+            Riwayat Hadiah
           </button>
 
           <Separator className="my-1" />
