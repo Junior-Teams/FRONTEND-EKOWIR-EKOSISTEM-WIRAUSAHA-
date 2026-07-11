@@ -1,27 +1,63 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { CheckCircle2, Coins, Gift, Lock } from "lucide-react"
+import { CheckCircle2, Coins, Copy, Gift, Lock } from "lucide-react"
+import { useState } from "react"
 import toast from "react-hot-toast"
 
 import { Breadcrumb } from "@/components/breadcrumb"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useClaimReward, useMyRewardsQuery } from "@/hooks/rewards/useRewards"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
+import { getStorageUrl } from "@/lib/storage"
 import { cn } from "@/lib/utils"
+
+const CODE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+function generateRedeemCode() {
+  const bytes = crypto.getRandomValues(new Uint8Array(8))
+  let code = ""
+  for (const byte of bytes) {
+    code += CODE_CHARS[byte % CODE_CHARS.length]
+  }
+  return `EKO-${code}`
+}
 
 export function Component() {
   const queryClient = useQueryClient()
   const { data, isLoading } = useMyRewardsQuery()
   const rewards = data?.data ?? []
 
+  const [claimResult, setClaimResult] = useState(null)
+
   const { mutate: claimReward, isPending, variables: claimingId } = useClaimReward({
-    onSuccess: () => {
+    onSuccess: (_data, id) => {
       toast.success("Hadiah berhasil ditukar!")
       queryClient.invalidateQueries({ queryKey: ["rewards.mine"] })
+      const reward = rewards.find((item) => item.ID === id)
+      if (reward) {
+        setClaimResult({ reward, code: generateRedeemCode() })
+      }
     },
     onError: (error) => {
       toast.error(error.response?.data?.error ?? "Gagal menukar hadiah")
     },
   })
+
+  async function copyRedeemCode() {
+    if (!claimResult) return
+    try {
+      await navigator.clipboard.writeText(claimResult.code)
+      toast.success("Kode disalin!")
+    } catch {
+      toast.error("Gagal menyalin kode")
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -101,6 +137,14 @@ export function Component() {
                   )}
                 </div>
 
+                {reward.image && (
+                  <img
+                    src={getStorageUrl(reward.image)}
+                    alt={reward.name}
+                    className="h-36 w-full border-b-2 border-black object-cover dark:border-white"
+                  />
+                )}
+
                 <div className="flex flex-1 flex-col gap-2 p-4">
                   <h3 className="font-heading text-base leading-snug font-bold">
                     {reward.name}
@@ -157,6 +201,49 @@ export function Component() {
           <p className="text-muted-foreground text-sm">Belum ada hadiah yang tersedia.</p>
         </div>
       )}
+
+      <Dialog
+        open={Boolean(claimResult)}
+        onOpenChange={(open) => {
+          if (!open) setClaimResult(null)
+        }}
+      >
+        <DialogContent className={cn(NEO_BORDER, NEO_SHADOW)}>
+          <DialogHeader>
+            <DialogTitle>
+              Tukarkan code berikut di - {claimResult?.reward.name}
+            </DialogTitle>
+            <DialogDescription>
+              Salin kode di bawah untuk menukarkan hadiahmu.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div
+            className={cn(
+              "flex items-center justify-center rounded-lg bg-neutral-100 px-4 py-5 dark:bg-neutral-800",
+              NEO_BORDER
+            )}
+          >
+            <span className="font-mono text-xl font-bold tracking-widest">
+              {claimResult?.code}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={copyRedeemCode}
+            className={cn(
+              "inline-flex items-center justify-center gap-1.5 rounded-lg bg-eko-primary px-3 py-2 text-xs font-bold uppercase text-white",
+              NEO_BORDER,
+              NEO_SHADOW,
+              NEO_PRESS
+            )}
+          >
+            <Copy className="size-4" />
+            Salin Kode
+          </button>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
