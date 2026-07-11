@@ -74,7 +74,7 @@ export function Component() {
             <Input
               id="name"
               type="text"
-              placeholder="Muhammad Hafidz"
+              placeholder="Masukan Nama"
               aria-invalid={Boolean(errors.name)}
               className={cn(
                 "h-12 rounded-lg bg-white text-base focus-visible:ring-0 dark:bg-neutral-900",
