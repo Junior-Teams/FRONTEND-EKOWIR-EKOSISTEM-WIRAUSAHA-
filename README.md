@@ -3,7 +3,8 @@
 **Ekowir** adalah platform pembelajaran berbasis web yang menggabungkan teknologi dan pendidikan untuk meningkatkan **literasi koperasi di Indonesia**. Ekowir memberdayakan individu untuk menjadi pengelola koperasi yang lebih baik dan mendorong pertumbuhan ekonomi berbasis komunitas.
 
 Repository ini adalah **frontend** dari aplikasi Ekowir, dibangun untuk kebutuhan hackathon.
-Berikut adalah link repository **backend** dari aplikasi ekowir dan dokumentasi nya. - [BACKEND-EKOWIRD](https://github.com/Junior-Teams/Backend-Ekowir)
+
+Berikut adalah link repository **backend** dari aplikasi ekowir dan dokumentasi nya. - [BACKEND-EKOWIR](https://github.com/Junior-Teams/Backend-Ekowir)
 
 ## ✨ Fitur Utama
 
