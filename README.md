@@ -6,6 +6,39 @@ Repository ini adalah **frontend** dari aplikasi Ekowir, dibangun untuk kebutuha
 
 Berikut adalah link repository **backend** dari aplikasi ekowir dan dokumentasi nya. - [BACKEND-EKOWIR](https://github.com/Junior-Teams/Backend-Ekowir)
 
+## 🎯 Tema yang Diusung — TEMA 4
+
+> **"Peningkatan Literasi dan Minat Generasi Z dan Generasi Alpha terhadap Koperasi"**
+
+Ekowir dibangun untuk mendukung **pilar ke-4** hackathon ini.
+
+### Latar Belakang & Problem Statement
+
+Generasi muda merupakan penggerak ekonomi masa depan, namun tingkat pemahaman dan minat terhadap koperasi masih relatif rendah dibandingkan perkembangan teknologi dan ekonomi digital saat ini. Diperlukan pendekatan baru yang lebih relevan dengan karakteristik generasi digital agar koperasi menjadi lebih **menarik, modern, dan mudah dipahami**.
+
+> **Bagaimana teknologi dapat meningkatkan literasi, pemahaman, dan minat Generasi Z serta Generasi Alpha terhadap koperasi?**
+
+### Bagaimana Ekowir Menjawab Tantangan Ini
+
+Ekowir mengombinasikan tiga contoh solusi yang direkomendasikan tema ini dalam satu platform:
+
+| Contoh Solusi (Tema 4) | Implementasi di Ekowir |
+|---|---|
+| **Gamified Cooperative Learning Platform** | XP, badge, tier, leaderboard, dan **redeem hadiah** — setiap aktivitas belajar dan berdiskusi menghasilkan poin yang bisa ditukar reward nyata |
+| **Digital Cooperative Academy** | Course terstruktur: modul → materi (rich text + video) → quiz dengan passing grade, lengkap dengan riwayat belajar |
+| **Social Engagement Platform** | Forum diskusi antar anggota dengan insentif XP untuk saling berinteraksi, membangun komunitas belajar koperasi |
+
+Jawaban Ekowir atas **challenge questions** Tema 4:
+
+- **Mengapa generasi muda kurang tertarik terhadap koperasi?** — Karena pendekatan edukasi koperasi selama ini belum berbicara dengan bahasa generasi digital. Ekowir menghadirkannya dalam pengalaman yang familiar bagi Gen Z & Alpha: tampilan modern, interaktif, dan game-like.
+- **Bagaimana menjadikan koperasi lebih relevan bagi generasi digital?** — Materi koperasi dikemas sebagai course digital yang ringkas dengan quiz interaktif, bukan teks panjang satu arah.
+- **Bagaimana memanfaatkan gamifikasi untuk edukasi koperasi?** — Sistem XP → tier → badge → leaderboard → redeem hadiah menciptakan loop motivasi berkelanjutan; berdiskusi di forum pun diberi poin.
+- **Bagaimana meningkatkan jumlah anggota muda dalam koperasi?** — Literasi yang menyenangkan menumbuhkan minat; forum komunitas menjaga keterlibatan — keduanya menjadi pintu masuk generasi muda ke ekosistem koperasi.
+
+### Dampak yang Diharapkan
+
+**Meningkatnya literasi, pemahaman, dan keterlibatan Generasi Z dan Generasi Alpha dalam ekosistem koperasi** — selaras dengan expected outcome Tema 4.
+
 ## ✨ Fitur Utama
 
 - **Autentikasi** — Register/login manual dan login dengan Google (OAuth).

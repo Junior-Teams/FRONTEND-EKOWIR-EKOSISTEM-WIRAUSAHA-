@@ -12,7 +12,9 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useMutationLogin } from "@/hooks/auth/useMutationLogin"
 import { useMutationRegister } from "@/hooks/auth/useMutationRegister"
+import { getRoleFromToken } from "@/lib/current-user"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
 import { cn } from "@/lib/utils"
 import { HOST_API } from "@/utils/axiosInstance"
@@ -29,15 +31,32 @@ export function Component() {
     formState: { errors },
   } = useForm({ mode: "onBlur" })
 
-  const { mutate, isPending } = useMutationRegister({
-    onSuccess: () => {
+  // Register doesn't return a token, so log the fresh account in right away
+  // with the same credentials - the user lands on the dashboard without
+  // having to fill the login form again.
+  const { mutate: login, isPending: isLoggingIn } = useMutationLogin({
+    onSuccess: (data) => {
+      toast.success("Akun berhasil dibuat, selamat datang!")
+      const isAdmin = getRoleFromToken(data?.token) === "admin"
+      navigate(isAdmin ? "/dashboard/admin" : "/dashboard")
+    },
+    onError: () => {
+      // The account exists but auto-login failed; fall back to manual login.
       toast.success("Akun berhasil dibuat, silakan login")
       navigate("/auth/login")
+    },
+  })
+
+  const { mutate, isPending: isRegistering } = useMutationRegister({
+    onSuccess: (_data, variables) => {
+      login({ email: variables.email, password: variables.password })
     },
     onError: (error) => {
       toast.error(error.response?.data?.error ?? "Gagal membuat akun")
     },
   })
+
+  const isPending = isRegistering || isLoggingIn
 
   function onSubmit(values) {
     mutate({
