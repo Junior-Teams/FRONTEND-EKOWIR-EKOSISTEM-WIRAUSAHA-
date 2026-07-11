@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react"
 
 export const ThemeProviderContext = createContext({
-  theme: "system",
+  theme: "light",
   setTheme: () => null,
 })
 
