@@ -21,15 +21,24 @@ axiosInstance.interceptors.request.use(
   }
 )
 
+// A 401 from /token just means wrong credentials, and a 401 from
+// /secured/logout means the token was already dead - both must reach the
+// caller instead of triggering the expired-session redirect below.
+const AUTH_401_WHITELIST = ["/token", "/secured/logout"]
+
 // Middleware token JWT
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
-    if (error.response?.status === 401) {
+    const requestUrl = error.config?.url ?? ""
+    const isAuthAttempt = AUTH_401_WHITELIST.some((path) =>
+      requestUrl.includes(path)
+    )
+    if (error.response?.status === 401 && !isAuthAttempt) {
       localStorage.removeItem('token');
-      window.location.href = '/';
+      window.location.href = '/auth/login';
     }
     return Promise.reject(error);
   }

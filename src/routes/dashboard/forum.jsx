@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { MessageCircle, MessagesSquare, Plus } from "lucide-react"
+import { MessageCircle, MessagesSquare, Plus, Sparkles } from "lucide-react"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -176,6 +176,32 @@ export function Component() {
           </p>
         </div>
         <NewThreadDialog />
+      </div>
+
+      <div
+        className={cn(
+          "flex items-center gap-3 rounded-lg bg-eko-secondary p-4 text-black",
+          NEO_BORDER,
+          NEO_SHADOW
+        )}
+      >
+        <div
+          className={cn(
+            "flex size-10 shrink-0 items-center justify-center rounded-lg bg-white/60",
+            NEO_BORDER
+          )}
+        >
+          <Sparkles className="size-5" />
+        </div>
+        <div>
+          <p className="font-heading text-sm font-bold">
+            Dapatkan poin dengan saling berdiskusi!
+          </p>
+          <p className="text-xs">
+            Buat diskusi baru dan balas komentar anggota lain untuk mengumpulkan
+            XP dan membuka hadiah menarik.
+          </p>
+        </div>
       </div>
 
       {isLoading ? (

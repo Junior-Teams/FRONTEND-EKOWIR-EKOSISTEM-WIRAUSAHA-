@@ -148,8 +148,15 @@ export function Component() {
             <Input
               id="name"
               placeholder="Voucher Rp50.000"
+              maxLength={30}
               aria-invalid={Boolean(errors.name)}
-              {...register("name", { required: "Nama hadiah wajib diisi" })}
+              {...register("name", {
+                required: "Nama hadiah wajib diisi",
+                maxLength: {
+                  value: 30,
+                  message: "Nama hadiah maksimal 30 karakter",
+                },
+              })}
             />
             {errors.name && (
               <p className="text-destructive text-sm">{errors.name.message}</p>
