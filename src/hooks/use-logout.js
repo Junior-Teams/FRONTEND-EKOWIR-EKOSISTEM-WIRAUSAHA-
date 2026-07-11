@@ -1,3 +1,4 @@
+import toast from "react-hot-toast"
 import { useNavigate } from "react-router"
 
 export function useLogout() {
@@ -5,6 +6,7 @@ export function useLogout() {
 
   return function logout() {
     localStorage.removeItem("token")
+    toast.success("Berhasil logout")
     navigate("/auth/login")
   }
 }

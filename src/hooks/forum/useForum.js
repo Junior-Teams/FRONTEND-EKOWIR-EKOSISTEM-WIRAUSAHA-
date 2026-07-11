@@ -56,9 +56,7 @@ export function useCreateComment({ onSuccess, onError } = {}) {
       const formData = new FormData()
       formData.append("idForum", idForum)
       formData.append("content", content)
-      // axiosInstance defaults Content-Type to application/json, which makes axios
-      // JSON-stringify FormData instead of sending it as multipart. Clearing the header
-      // here lets the browser set the correct multipart/form-data boundary itself.
+     
       const response = await axiosInstance.post("/secured/comments", formData, {
         headers: { "Content-Type": undefined },
       })
