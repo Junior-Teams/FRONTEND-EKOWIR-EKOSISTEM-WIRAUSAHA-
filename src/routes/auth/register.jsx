@@ -96,7 +96,7 @@ export function Component() {
               id="username"
               inputMode="text"
               type="text"
-              placeholder="hafidz"
+              placeholder="Username-123"
               aria-invalid={Boolean(errors.username)}
               className={cn(
                 "h-12 rounded-lg bg-white text-base focus-visible:ring-0 dark:bg-neutral-900",
