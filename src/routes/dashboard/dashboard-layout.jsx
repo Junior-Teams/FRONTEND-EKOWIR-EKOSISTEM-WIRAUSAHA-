@@ -42,7 +42,7 @@ const NAV_ITEMS = [
 ]
 
 const ADMIN_NAV_ITEMS = [
-  { title: "Beranda", url: "/dashboard/admin", icon: LayoutDashboard },
+  { title: "Dashboard", url: "/dashboard/admin", icon: LayoutDashboard },
   { title: "Pengguna", url: "/dashboard/admin/pengguna", icon: Users },
   { title: "Modul", url: "/dashboard/admin/modules", icon: Package },
    { title: "Hadiah", url: "/dashboard/admin/reward", icon: Gift },

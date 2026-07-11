@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useMutationLogin } from "@/hooks/auth/useMutationLogin"
+import { getRoleFromToken } from "@/lib/current-user"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
 import { cn } from "@/lib/utils"
 import { HOST_API } from "@/utils/axiosInstance"
@@ -28,9 +29,10 @@ export function Component() {
   } = useForm({ mode: "onBlur" })
 
   const { mutate, isPending } = useMutationLogin({
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Berhasil masuk")
-      navigate("/dashboard")
+      const isAdmin = getRoleFromToken(data?.token) === "admin"
+      navigate(isAdmin ? "/dashboard/admin" : "/dashboard")
     },
     onError: (error) => {
       toast.error(

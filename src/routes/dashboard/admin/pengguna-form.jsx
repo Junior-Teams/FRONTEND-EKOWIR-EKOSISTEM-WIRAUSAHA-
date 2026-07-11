@@ -133,8 +133,7 @@ export function Component() {
     <div className="flex flex-col gap-4">
       <Breadcrumb
         items={[
-          { label: "Beranda", href: "/dashboard" },
-          { label: "Admin", href: "/dashboard/admin" },
+          { label: "Dashboard", href: "/dashboard/admin" },
           { label: "Pengguna", href: "/dashboard/admin/pengguna" },
           { label: isEditing ? "Edit Pengguna" : "Tambah Pengguna" },
         ]}

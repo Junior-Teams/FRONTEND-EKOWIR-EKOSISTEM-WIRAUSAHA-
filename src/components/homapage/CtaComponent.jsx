@@ -20,7 +20,7 @@ export default function CtaComponent() {
         </h2>
 
         <p className="mt-4 text-lg text-muted-foreground">
-          Kuasai materi dan latihan seputar koperasi bersama Ekobis
+          Kuasai materi dan latihan seputar koperasi bersama Ekowir
         </p>
 
         <Link

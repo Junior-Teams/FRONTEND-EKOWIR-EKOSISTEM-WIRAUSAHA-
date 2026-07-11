@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table"
 import { useDeleteReward, useRewardsQuery } from "@/hooks/admin/useRewardAdmin"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
+import { getStorageUrl } from "@/lib/storage"
 import { cn } from "@/lib/utils"
 
 const cardClass = cn(
@@ -47,8 +48,7 @@ export function Component() {
     <div className="flex flex-col gap-4">
       <Breadcrumb
         items={[
-          { label: "Beranda", href: "/dashboard" },
-          { label: "Admin", href: "/dashboard/admin" },
+          { label: "Dashboard", href: "/dashboard/admin" },
           { label: "Hadiah" },
         ]}
       />
@@ -72,6 +72,7 @@ export function Component() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-16">Gambar</TableHead>
                 <TableHead>Nama</TableHead>
                 <TableHead>Deskripsi</TableHead>
                 <TableHead>XP Dibutuhkan</TableHead>
@@ -82,6 +83,27 @@ export function Component() {
               {rewards?.length ? (
                 rewards.map((reward) => (
                   <TableRow key={reward.ID}>
+                    <TableCell>
+                      {reward.image ? (
+                        <img
+                          src={getStorageUrl(reward.image)}
+                          alt={reward.name}
+                          className={cn(
+                            "size-10 rounded-md object-cover",
+                            NEO_BORDER
+                          )}
+                        />
+                      ) : (
+                        <div
+                          className={cn(
+                            "text-muted-foreground flex size-10 items-center justify-center rounded-md bg-neutral-100 text-[10px] dark:bg-neutral-800",
+                            NEO_BORDER
+                          )}
+                        >
+                          N/A
+                        </div>
+                      )}
+                    </TableCell>
                     <TableCell className="font-medium">{reward.name}</TableCell>
                     <TableCell className="max-w-sm truncate">
                       {reward.description}
@@ -113,7 +135,7 @@ export function Component() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-muted-foreground text-center">
+                  <TableCell colSpan={5} className="text-muted-foreground text-center">
                     Belum ada hadiah.
                   </TableCell>
                 </TableRow>

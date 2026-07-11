@@ -1,21 +1,22 @@
 import { useQueryClient } from "@tanstack/react-query"
 import { useEffect, useRef } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { Link, useNavigate, useParams } from "react-router"
 
 import { Breadcrumb } from "@/components/breadcrumb"
+import { MateriEditor } from "@/components/materi/materi-editor"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Textarea } from "@/components/ui/textarea"
 import {
   useCreateMateri,
   useMateriQuery,
   useUpdateMateri,
 } from "@/hooks/admin/useMateriAdmin"
 import { useModuleQuery } from "@/hooks/admin/useModuleAdmin"
+import { isMateriContentEmpty } from "@/lib/materi-content"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
 import { cn } from "@/lib/utils"
 
@@ -37,6 +38,7 @@ export function Component() {
 
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors },
@@ -112,8 +114,7 @@ export function Component() {
     <div className="flex flex-col gap-4">
       <Breadcrumb
         items={[
-          { label: "Beranda", href: "/dashboard" },
-          { label: "Admin", href: "/dashboard/admin" },
+          { label: "Dashboard", href: "/dashboard/admin" },
           { label: "Modul", href: "/dashboard/admin/modules" },
           { label: module?.name_module ?? "Modul", href: moduleHref },
           { label: title },
@@ -150,15 +151,21 @@ export function Component() {
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="arrayElement">Konten</Label>
-            <Textarea
-              id="arrayElement"
-              rows={6}
-              className="h-auto min-h-36 py-3"
-              aria-invalid={Boolean(errors.arrayElement)}
-              {...register("arrayElement", {
-                required: "Konten wajib diisi",
-              })}
+            <Controller
+              name="arrayElement"
+              control={control}
+              rules={{
+                validate: (value) =>
+                  !isMateriContentEmpty(value) || "Konten wajib diisi",
+              }}
+              render={({ field }) => (
+                <MateriEditor value={field.value} onChange={field.onChange} />
+              )}
             />
+            <p className="text-muted-foreground text-xs">
+              Gunakan toolbar untuk menambahkan heading, daftar, tabel, hingga
+              video YouTube.
+            </p>
             {errors.arrayElement && (
               <p className="text-destructive text-sm">
                 {errors.arrayElement.message}

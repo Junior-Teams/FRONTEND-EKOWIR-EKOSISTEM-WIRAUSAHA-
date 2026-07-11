@@ -14,9 +14,9 @@ export function Footer() {
     <footer className="bg-eko-primary text-white">
       <Container className="grid grid-cols-1 gap-10 py-12 md:grid-cols-3">
         <div>
-          <img src="/assets/logo/2.svg" alt="Ekobis" className="h-14 w-auto" />
+          <img src="/assets/logo/2.svg" alt="Ekowir" className="h-14 w-auto" />
           <p className="mt-4 text-sm text-white/80 px-3">
-            Ekobis membantu kamu memahami dan mengelola koperasi lewat
+            Ekowir membantu kamu memahami dan mengelola koperasi lewat
             materi belajar, latihan soal, forum diskusi, dan leaderboard —
             semua bisa diakses di mana saja.
           </p>
@@ -42,10 +42,10 @@ export function Footer() {
             Kontak
           </h3>
           <div className="mt-4 flex flex-col gap-1 text-sm text-white/80">
-            <p>Ekobis - Ekosistem Bisnis</p>
+            <p>Ekowir - Ekosistem Wirausaha</p>
             <p>Jakarta, Indonesia</p>
-            <a href="mailto:halo@ekobis.id" className="mt-2 hover:text-white">
-              halo@ekobis.id
+            <a href="mailto:halo@Ekowir.id" className="mt-2 hover:text-white">
+              halo@Ekowir.id
             </a>
           </div>
         </div>
@@ -54,7 +54,7 @@ export function Footer() {
       <div className="border-t border-white/10 py-4">
         <Container>
           <p className="text-center text-xs text-white/60">
-            © {new Date().getFullYear()} Ekobis. All rights reserved.
+            © {new Date().getFullYear()} Ekowir. All rights reserved.
           </p>
         </Container>
       </div>

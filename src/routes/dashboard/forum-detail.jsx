@@ -5,6 +5,7 @@ import toast from "react-hot-toast"
 import { Navigate, useNavigate, useParams } from "react-router"
 
 import { Breadcrumb } from "@/components/breadcrumb"
+import { MateriContent } from "@/components/materi/materi-content"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
@@ -186,7 +187,7 @@ export function Component() {
         </div>
 
         <h1 className="font-heading text-xl font-bold sm:text-2xl">{thread.title}</h1>
-        <p className="text-sm whitespace-pre-line">{thread.description}</p>
+        <MateriContent content={thread.description} />
 
         <div className="mt-1 flex flex-wrap items-center gap-2">
           <span

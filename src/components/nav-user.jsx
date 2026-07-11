@@ -1,10 +1,8 @@
 import {
   ChevronsUpDown,
-  History,
   LogOut,
   Moon,
   Sun,
-  Ticket,
   User,
 } from "lucide-react"
 import { Link } from "react-router"
@@ -70,14 +68,11 @@ export function NavUser() {
             <User className="size-4" />
             Profil Saya
           </Link>
-          <button type="button" className={menuItemClass}>
-            <Ticket className="size-4" />
-            Voucher Saya
-          </button>
-          <button type="button" className={menuItemClass}>
+         
+          {/* <button type="button" className={menuItemClass}>
             <History className="size-4" />
-            Riwayat Hadiah
-          </button>
+            Riwayat Reedem Hadiah
+          </button> */}
 
           <Separator className="my-1" />
 

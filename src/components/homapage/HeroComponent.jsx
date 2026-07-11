@@ -10,7 +10,7 @@ export default function HeroComponent() {
           <h1 className="text-4xl leading-tight font-extrabold text-foreground md:text-5xl">
            Tingkatkan Literasi Koperasimu Bersama
             <br />
-            <span className="text-eko-primary">Ekobis.</span>
+            <span className="text-eko-primary">Ekowir.</span>
           </h1>
           <p className="mt-6 text-lg text-muted-foreground">
             Belajar jadi lebih terarah dengan video materi, latihan soal,

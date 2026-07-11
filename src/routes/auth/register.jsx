@@ -94,6 +94,7 @@ export function Component() {
             <Label htmlFor="username">Username</Label>
             <Input
               id="username"
+              inputMode="text"
               type="text"
               placeholder="hafidz"
               aria-invalid={Boolean(errors.username)}
@@ -120,6 +121,7 @@ export function Component() {
             <Input
               id="email"
               type="email"
+              inputMode="email"
               placeholder="m@example.com"
               aria-invalid={Boolean(errors.email)}
               className={cn(

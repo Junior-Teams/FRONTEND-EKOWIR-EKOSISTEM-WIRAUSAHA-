@@ -1,0 +1,162 @@
+/* Shared typography for materi rich text — applies to both the admin editor
+   and the user-facing viewer so what admins write is exactly what users see.
+   Borders follow the app's neobrutalist language (2px black, white in dark). */
+
+.materi-content .tiptap {
+  outline: none;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.materi-content .tiptap > * + * {
+  margin-top: 0.75em;
+}
+
+.materi-content .tiptap h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.materi-content .tiptap h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.materi-content .tiptap h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.materi-content .tiptap ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+.materi-content .tiptap ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+.materi-content .tiptap li + li {
+  margin-top: 0.25em;
+}
+
+.materi-content .tiptap blockquote {
+  border-left: 4px solid var(--eko-primary);
+  padding: 0.5rem 1rem;
+  background: color-mix(in oklch, var(--eko-primary), transparent 92%);
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+}
+
+.materi-content .tiptap code {
+  background: var(--muted);
+  border-radius: 0.25rem;
+  padding: 0.15em 0.4em;
+  font-size: 0.875em;
+}
+
+.materi-content .tiptap pre {
+  background: var(--muted);
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+}
+
+.materi-content .tiptap pre code {
+  background: none;
+  padding: 0;
+}
+
+.materi-content .tiptap hr {
+  border: none;
+  border-top: 2px solid black;
+  margin: 1.25rem 0;
+}
+
+.materi-content .tiptap a {
+  color: var(--eko-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+
+/* Tables — bordered per cell, neobrutalist */
+.materi-content .tiptap .tableWrapper {
+  overflow-x: auto;
+}
+
+.materi-content .tiptap table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid black;
+}
+
+.materi-content .tiptap th,
+.materi-content .tiptap td {
+  border: 2px solid black;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+  min-width: 4rem;
+}
+
+.materi-content .tiptap th {
+  background: var(--eko-secondary);
+  font-weight: 700;
+}
+
+.materi-content .tiptap .selectedCell {
+  background: color-mix(in oklch, var(--eko-primary), transparent 85%);
+}
+
+/* YouTube embeds — framed like the app's cards, responsive */
+.materi-content .tiptap div[data-youtube-video] {
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 4px 4px 0px 0px #000;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+}
+
+.materi-content .tiptap div[data-youtube-video] iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+}
+
+.materi-content .tiptap div[data-youtube-video].ProseMirror-selectednode {
+  outline: 3px solid var(--eko-primary);
+}
+
+/* Placeholder-ish empty state inside the editor */
+.materi-content .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+/* Dark mode: flip the black borders to white, like NEO_BORDER does */
+.dark .materi-content .tiptap pre,
+.dark .materi-content .tiptap hr,
+.dark .materi-content .tiptap table,
+.dark .materi-content .tiptap th,
+.dark .materi-content .tiptap td,
+.dark .materi-content .tiptap div[data-youtube-video] {
+  border-color: white;
+}
+
+.dark .materi-content .tiptap div[data-youtube-video] {
+  box-shadow: 4px 4px 0px 0px #fff;
+}
+
+.dark .materi-content .tiptap th {
+  background: color-mix(in oklch, var(--eko-secondary), black 45%);
+}

@@ -1,19 +1,32 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { KeyRound, LogOut, Sparkles, User } from "lucide-react"
+import {
+  BookOpen,
+  CheckCircle2,
+  GraduationCap,
+  KeyRound,
+  LogOut,
+  Sparkles,
+  User,
+} from "lucide-react"
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
+import { Link } from "react-router"
 
 import { Breadcrumb } from "@/components/breadcrumb"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ProgressBar } from "@/components/ui/progress-bar"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser"
 import { useLogout } from "@/hooks/use-logout"
+import { useCourseHistoryQuery } from "@/hooks/profile/useCourseHistory"
 import { useChangePassword, useUpdateProfile } from "@/hooks/profile/useProfile"
 import { getInitials } from "@/lib/current-user"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
+import { getStorageUrl } from "@/lib/storage"
 import { cn } from "@/lib/utils"
 
 const inputClass = cn(
@@ -63,7 +76,7 @@ function ProfileForm({ user }) {
       <div>
         <h2 className="font-heading text-lg font-bold">Informasi Personal</h2>
         <p className="text-muted-foreground text-sm">
-          Informasi ini akan digunakan untuk personalisasi pada layanan Ekobis.
+          Informasi ini akan digunakan untuk personalisasi pada layanan Ekowir.
         </p>
       </div>
 
@@ -229,6 +242,125 @@ function PasswordForm() {
   )
 }
 
+function CourseHistory() {
+  const { data: courses, isLoading } = useCourseHistoryQuery()
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-3">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <Skeleton key={index} className="h-28 w-full" />
+        ))}
+      </div>
+    )
+  }
+
+  if (!courses?.length) {
+    return (
+      <div className={cn(cardClass, "items-center py-10 text-center")}>
+        <BookOpen className="text-muted-foreground size-8" />
+        <p className="text-muted-foreground text-sm">
+          Belum ada kursus yang kamu mulai. Yuk mulai belajar!
+        </p>
+        <Link
+          to="/dashboard/belajar"
+          className={cn(
+            "rounded-lg bg-eko-primary px-4 py-2 text-sm font-bold text-white uppercase",
+            NEO_BORDER,
+            NEO_SHADOW,
+            NEO_PRESS
+          )}
+        >
+          Jelajahi Modul
+        </Link>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {courses.map((course) => {
+        const isCompleted = course.status === "completed"
+        const percent = course.total_materi
+          ? (course.completed_materi / course.total_materi) * 100
+          : 0
+        return (
+          <Link
+            key={course.id_module}
+            to={`/dashboard/belajar/${course.id_module}`}
+            className={cn(
+              "flex flex-col gap-3 rounded-lg bg-white p-4 sm:flex-row sm:items-center dark:bg-neutral-900",
+              NEO_BORDER,
+              NEO_SHADOW,
+              NEO_PRESS
+            )}
+          >
+            <img
+              src={getStorageUrl(course.image)}
+              alt={course.name_module}
+              className={cn(
+                "h-20 w-full shrink-0 rounded-lg object-cover sm:w-32",
+                NEO_BORDER
+              )}
+            />
+
+            <div className="flex flex-1 flex-col gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span
+                  className={cn(
+                    "rounded-full bg-eko-secondary px-2 py-0.5 text-[10px] font-bold uppercase",
+                    NEO_BORDER
+                  )}
+                >
+                  {course.code_module}
+                </span>
+                {isCompleted ? (
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-full bg-eko-tertiary px-2 py-0.5 text-[10px] font-bold uppercase",
+                      NEO_BORDER
+                    )}
+                  >
+                    <CheckCircle2 className="size-3" />
+                    Completed
+                  </span>
+                ) : (
+                  <span
+                    className={cn(
+                      "rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold uppercase dark:bg-blue-950",
+                      NEO_BORDER
+                    )}
+                  >
+                    In Progress
+                  </span>
+                )}
+              </div>
+
+              <h3 className="font-heading text-base font-bold">
+                {course.name_module}
+              </h3>
+
+              <div className="flex items-center gap-3">
+                <ProgressBar value={percent} className="flex-1" />
+                <span className="text-muted-foreground shrink-0 text-xs font-bold">
+                  {course.completed_materi}/{course.total_materi} materi
+                </span>
+              </div>
+
+              {course.total_quizzes > 0 && (
+                <p className="text-muted-foreground text-xs">
+                  Kuis selesai: {course.completed_quizzes} dari{" "}
+                  {course.total_quizzes}
+                </p>
+              )}
+            </div>
+          </Link>
+        )
+      })}
+    </div>
+  )
+}
+
 export function Component() {
   const logout = useLogout()
   const { data: user } = useCurrentUser()
@@ -317,6 +449,10 @@ export function Component() {
             <KeyRound className="size-4" />
             Ganti Password
           </TabsTrigger>
+          <TabsTrigger value="kursus">
+            <GraduationCap className="size-4" />
+            Riwayat Kursus
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="profil">
@@ -325,6 +461,10 @@ export function Component() {
 
         <TabsContent value="password">
           <PasswordForm />
+        </TabsContent>
+
+        <TabsContent value="kursus">
+          <CourseHistory />
         </TabsContent>
       </Tabs>
     </div>

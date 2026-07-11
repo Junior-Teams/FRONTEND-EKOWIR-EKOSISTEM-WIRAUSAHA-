@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 import { Link } from "react-router"
 
 import { Breadcrumb } from "@/components/breadcrumb"
+import { MateriEditor } from "@/components/materi/materi-editor"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -20,11 +21,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Textarea } from "@/components/ui/textarea"
 import { useModulesQuery } from "@/hooks/admin/useModuleAdmin"
 import { useCreateForum, useForumsQuery } from "@/hooks/forum/useForum"
 import { getAvatarColor } from "@/lib/avatar"
 import { showGamificationToast } from "@/lib/gamification"
+import {
+  getMateriContentText,
+  isMateriContentEmpty,
+} from "@/lib/materi-content"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
 import { cn } from "@/lib/utils"
 
@@ -77,7 +81,13 @@ function NewThreadDialog() {
           </Button>
         }
       />
-      <DialogContent className={cn("sm:max-w-md", NEO_BORDER, NEO_SHADOW)}>
+      <DialogContent
+        className={cn(
+          "max-h-[90svh] overflow-y-auto sm:max-w-2xl",
+          NEO_BORDER,
+          NEO_SHADOW
+        )}
+      >
         <DialogHeader>
           <DialogTitle>Buat Diskusi Baru</DialogTitle>
           <DialogDescription>
@@ -100,11 +110,16 @@ function NewThreadDialog() {
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="description">Deskripsi</Label>
-            <Textarea
-              id="description"
-              rows={4}
-              aria-invalid={Boolean(errors.description)}
-              {...register("description", { required: "Deskripsi wajib diisi" })}
+            <Controller
+              name="description"
+              control={control}
+              rules={{
+                validate: (value) =>
+                  !isMateriContentEmpty(value) || "Deskripsi wajib diisi",
+              }}
+              render={({ field }) => (
+                <MateriEditor value={field.value} onChange={field.onChange} />
+              )}
             />
             {errors.description && (
               <p className="text-destructive text-sm">{errors.description.message}</p>
@@ -223,7 +238,7 @@ export function Component() {
                   {thread.title}
                 </h3>
                 <p className="text-muted-foreground line-clamp-2 text-sm">
-                  {thread.description}
+                  {getMateriContentText(thread.description)}
                 </p>
 
                 <div className="mt-1 flex items-center gap-4 border-t-2 border-black pt-3 text-xs font-bold dark:border-white">

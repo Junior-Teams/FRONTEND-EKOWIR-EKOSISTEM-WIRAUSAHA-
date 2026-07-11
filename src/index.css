@@ -2,13 +2,14 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/plus-jakarta-sans";
+@import "./styles/materi-content.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: 'Plus Jakarta Sans Variable', sans-serif;
-    /* Ekobis brand palette, kept under an "eko-" prefix so it never
+    /* Ekowir brand palette, kept under an "eko-" prefix so it never
        collides with shadcn's own --primary/--secondary tokens. */
     --color-eko-primary: var(--eko-primary);
     --color-eko-secondary: var(--eko-secondary);

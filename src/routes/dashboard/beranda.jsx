@@ -1,7 +1,8 @@
-import { BookOpen, Gift, MessagesSquare, Sparkles, Trophy } from "lucide-react"
-import { Link } from "react-router"
+import { Activity, BookOpen, Gift, MessagesSquare, Sparkles, Trophy } from "lucide-react"
+import { Link, Navigate } from "react-router"
 
 import { Breadcrumb } from "@/components/breadcrumb"
+import { ActivityChart } from "@/components/charts/dashboard-charts"
 import {
   Card,
   CardContent,
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser"
+import { useMyActivityQuery } from "@/hooks/dashboard/useMyActivity"
 import { useLeaderboardQuery } from "@/hooks/leaderboard/useLeaderboard"
 import { useTiersQuery } from "@/hooks/tiers/useTiers"
 import { getTierProgress } from "@/lib/gamification"
@@ -50,11 +52,18 @@ export function Component() {
     limit: 100,
   })
   const { data: tiers, isLoading: isTiersLoading } = useTiersQuery()
+  const { data: activity, isLoading: isActivityLoading } = useMyActivityQuery()
 
   const rankEntry = leaderboard?.find((entry) => entry.id === user?.id)
   const isLoading = isUserLoading || isLeaderboardLoading
 
   const { current, next, percent } = getTierProgress(user?.xp ?? 0, tiers)
+
+  // Admin lands on their own dashboard - /dashboard is the shared post-login
+  // destination (email login and the Google OAuth callback both point here).
+  if (user?.role === "admin") {
+    return <Navigate to="/dashboard/admin" replace />
+  }
 
   const stats = [
     { label: "Total XP", value: user?.xp?.toLocaleString("id-ID") ?? "0" },
@@ -107,6 +116,26 @@ export function Component() {
               style={{ width: `${percent}%` }}
             />
           </div>
+        </CardContent>
+      </Card>
+
+      <Card className={cardClass}>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="size-5" />
+            Aktivitas 7 Hari Terakhir
+          </CardTitle>
+          <CardDescription>
+            Materi yang kamu selesaikan, kuis yang lulus, dan komentar forum per
+            hari.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {isActivityLoading ? (
+            <Skeleton className="h-64 w-full" />
+          ) : (
+            <ActivityChart data={activity} />
+          )}
         </CardContent>
       </Card>
 

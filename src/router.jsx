@@ -50,6 +50,20 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    // Full-bleed course viewer with its own sidebar (materi list + wrap-up
+    // quiz) - deliberately a sibling of the dashboard layout so it doesn't
+    // inherit the global app sidebar.
+    id: "course-viewer",
+    path: "/dashboard/belajar/:id/materi",
+    lazy: () => import("@/routes/dashboard/belajar/course-viewer-layout"),
+    children: [
+      {
+        path: ":materiId",
+        lazy: () => import("@/routes/dashboard/belajar/course-viewer-materi"),
+      },
+    ],
+  },
+  {
     id: "dashboard",
     path: "/dashboard",
     Component: dashboardLayout.Component,

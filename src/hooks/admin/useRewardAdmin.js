@@ -23,11 +23,20 @@ export function useRewardQuery(id) {
   })
 }
 
+// axiosInstance defaults Content-Type to application/json, which makes axios
+// JSON-stringify FormData instead of sending it as multipart. Clearing the
+// header lets the browser set the correct multipart/form-data boundary itself.
+const multipartConfig = { headers: { "Content-Type": undefined } }
+
 export function useCreateReward({ onSuccess, onError } = {}) {
   return useMutation({
     mutationKey: ["admin.rewards.create"],
-    mutationFn: async (body) => {
-      const response = await axiosInstance.post("/secured/rewards", body)
+    mutationFn: async (formData) => {
+      const response = await axiosInstance.post(
+        "/secured/rewards",
+        formData,
+        multipartConfig
+      )
       return response.data
     },
     onSuccess,
@@ -38,8 +47,12 @@ export function useCreateReward({ onSuccess, onError } = {}) {
 export function useUpdateReward({ onSuccess, onError } = {}) {
   return useMutation({
     mutationKey: ["admin.rewards.update"],
-    mutationFn: async ({ id, body }) => {
-      const response = await axiosInstance.put(`/secured/rewards/${id}`, body)
+    mutationFn: async ({ id, formData }) => {
+      const response = await axiosInstance.put(
+        `/secured/rewards/${id}`,
+        formData,
+        multipartConfig
+      )
       return response.data
     },
     onSuccess,

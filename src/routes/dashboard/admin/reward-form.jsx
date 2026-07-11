@@ -16,6 +16,7 @@ import {
   useUpdateReward,
 } from "@/hooks/admin/useRewardAdmin"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
+import { getStorageUrl } from "@/lib/storage"
 import { cn } from "@/lib/utils"
 
 const cardClass = cn(
@@ -39,7 +40,7 @@ export function Component() {
     formState: { errors },
   } = useForm({
     mode: "onBlur",
-    defaultValues: { name: "", description: "", requiredXp: "" },
+    defaultValues: { name: "", description: "", requiredXp: "", image: "" },
   })
 
   // Only sync fetched reward into the form once per record - a background
@@ -86,17 +87,21 @@ export function Component() {
   })
 
   function onSubmit(values) {
-    const body = {
-      name: values.name,
-      description: values.description,
-      required_xp: Number(values.requiredXp),
+    const formData = new FormData()
+    formData.append("name", values.name)
+    formData.append("description", values.description)
+    formData.append("required_xp", String(Number(values.requiredXp)))
+
+    const imageFile = values.image?.[0]
+    if (imageFile) {
+      formData.append("image", imageFile)
     }
 
     if (isEditing) {
-      updateReward({ id, body })
+      updateReward({ id, formData })
       return
     }
-    createReward(body)
+    createReward(formData)
   }
 
   const isSaving = isCreating || isUpdating
@@ -116,8 +121,7 @@ export function Component() {
     <div className="flex flex-col gap-4">
       <Breadcrumb
         items={[
-          { label: "Beranda", href: "/dashboard" },
-          { label: "Admin", href: "/dashboard/admin" },
+          { label: "Dashboard", href: "/dashboard/admin" },
           { label: "Hadiah", href: "/dashboard/admin/reward" },
           { label: title },
         ]}
@@ -187,6 +191,31 @@ export function Component() {
             {errors.requiredXp && (
               <p className="text-destructive text-sm">
                 {errors.requiredXp.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="image">Gambar</Label>
+            {isEditing && reward?.image && (
+              <img
+                src={getStorageUrl(reward.image)}
+                alt={reward.name}
+                className={cn(
+                  "h-32 w-32 rounded-md object-cover",
+                  NEO_BORDER
+                )}
+              />
+            )}
+            <Input
+              id="image"
+              type="file"
+              accept="image/*"
+              {...register("image")}
+            />
+            {isEditing && (
+              <p className="text-muted-foreground text-xs">
+                Biarkan kosong jika tidak ingin mengganti gambar.
               </p>
             )}
           </div>

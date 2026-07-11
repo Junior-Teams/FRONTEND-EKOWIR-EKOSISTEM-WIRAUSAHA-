@@ -17,6 +17,7 @@ import {
 import { useDeleteMateri, useMaterisQuery } from "@/hooks/admin/useMateriAdmin"
 import { useModuleQuery } from "@/hooks/admin/useModuleAdmin"
 import { useDeleteQuiz, useQuizzesQuery } from "@/hooks/admin/useQuizAdmin"
+import { getMateriContentText } from "@/lib/materi-content"
 import { NEO_BORDER, NEO_PRESS, NEO_SHADOW } from "@/lib/neobrutalism"
 import { cn } from "@/lib/utils"
 
@@ -82,8 +83,7 @@ export function Component() {
     <div className="flex flex-col gap-4">
       <Breadcrumb
         items={[
-          { label: "Beranda", href: "/dashboard" },
-          { label: "Admin", href: "/dashboard/admin" },
+          { label: "Dashboard", href: "/dashboard/admin" },
           { label: "Modul", href: "/dashboard/admin/modules" },
           { label: module?.name_module ?? "Modul" },
         ]}
@@ -139,7 +139,7 @@ export function Component() {
                   <TableRow key={materi.ID}>
                     <TableCell className="font-medium">{materi.name}</TableCell>
                     <TableCell className="max-w-md truncate">
-                      {materi.array_element}
+                      {getMateriContentText(materi.array_element)}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
