@@ -95,12 +95,12 @@ export function Component() {
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <Link
+              {/* <Link
                 to="/auth/forgot-password"
                 className="text-sm underline underline-offset-4"
               >
                 Forgot your password?
-              </Link>
+              </Link> */}
             </div>
             <Input
               id="password"

@@ -44,8 +44,8 @@ export function Footer() {
           <div className="mt-4 flex flex-col gap-1 text-sm text-white/80">
             <p>Ekowir - Ekosistem Wirausaha</p>
             <p>Jakarta, Indonesia</p>
-            <a href="mailto:halo@Ekowir.id" className="mt-2 hover:text-white">
-              halo@Ekowir.id
+            <a href="mailto:muhammadhafidzfurqon27@gmail.com" className="mt-2 hover:text-white">
+              Dibuat dengan ❤️ oleh Junior Teams
             </a>
           </div>
         </div>
